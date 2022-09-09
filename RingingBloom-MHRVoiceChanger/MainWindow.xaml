@@ -1,0 +1,127 @@
+﻿<Window x:Class="RingingBloom.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RingingBloom"
+        mc:Ignorable="d"
+        Name="Window"
+        Title="MHR Voice Changer (Powered by RingingBloom)" Height="480" Width="640" ResizeMode="CanMinimize"
+        Closing="CloseProgram"
+        Background="#404040">
+    <Window.Resources>
+    </Window.Resources>
+    <Grid Name="mainGrid" Margin="0,0,0,0">
+        <Menu Height="20" VerticalAlignment="Top">
+            <MenuItem Name="Options" Header="Options" Click="SetOptions" ToolTip="Options. Mainly for changing the default directories the program looks at." IsEnabled="False"/>
+            <TextBlock x:Name="programVersion" Text="Version: 0.79"/>
+            <TextBlock x:Name="dbVersion" Text="DB Version: 0.00"/>
+        </Menu>
+        <Grid HorizontalAlignment="Center" Height="444" Margin="0,20,0,0" VerticalAlignment="Top" Width="640">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="31*"/>
+                <ColumnDefinition Width="609*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle x:Name="overviewRectangle" Height="400" Margin="299,10,20,34" Stroke="White" StrokeThickness="2" Grid.Column="1" Fill="#FF202020"/>
+            <Rectangle x:Name="inputRectangle" Margin="20,10,330,244" Stroke="White" StrokeThickness="2" Height="190" Grid.ColumnSpan="2" Fill="#FF202020"/>
+            <Rectangle x:Name="outputRectangle" Margin="20,220,330,34" Stroke="White" StrokeThickness="2" Height="190" Grid.ColumnSpan="2" Fill="#FF202020"/>
+            <Button x:Name="convertButton" Grid.Column="1" Content="CONVERT" HorizontalAlignment="Left" Height="36" Margin="327,357,0,0" VerticalAlignment="Top" Width="117" FontWeight="Bold" FontSize="14" Click="ConvertPCKFile"/>
+            <TextBlock x:Name="statusLabel" Grid.Column="1" HorizontalAlignment="Left" Height="36" Margin="458,363,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top" Width="98" Foreground="White" FontSize="16" FontWeight="Bold"/>
+            <TextBlock x:Name="inputHeaderText" HorizontalAlignment="Left" Margin="28,10,0,0" TextWrapping="Wrap" FontSize="16" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="30" Width="100" TextDecorations="Underline" Grid.ColumnSpan="2" Text="Input Voice"/>
+            <TextBlock x:Name="outputHeaderText" HorizontalAlignment="Left" Margin="28,222,0,0" TextWrapping="Wrap" FontSize="16" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="30" Width="100" TextDecorations="Underline" Grid.ColumnSpan="2" Text="Output Voice"/>
+            <TextBlock x:Name="overviewHeader" HorizontalAlignment="Left" Margin="307,10,0,0" TextWrapping="Wrap" FontSize="16" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="30" Width="100" TextDecorations="Underline" Text="Overview" Grid.Column="1"/>
+            <Viewbox Grid.Column="1" HorizontalAlignment="Left" Height="113" Margin="307,231,0,0" Stretch="Fill" VerticalAlignment="Top" Width="249">
+                <Grid x:Name="outputOV" Height="113" Width="249">
+                    <Label x:Name="outputVoiceOV" Content="Voice 1" HorizontalAlignment="Left" Margin="75,25,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+                    <Label x:Name="outputLangOV" Content="English" HorizontalAlignment="Left" Margin="75,54,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+                    <Label x:Name="outputFileOV" Content="pl_voice_m_01_media.pck.3.X64.En" HorizontalAlignment="Left" Margin="33,84,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14" Width="231"/>
+                    <TextBlock x:Name="outputHeaderOV" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="14" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="25" Width="100" TextDecorations="Underline" Text="Output Voice"/>
+                    <TextBlock x:Name="outputVHeaderOV" HorizontalAlignment="Left" Margin="0,30,0,0" TextWrapping="Wrap" FontSize="14" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="24" Width="50" Text="Voice:"/>
+                    <TextBlock x:Name="outputLHeaderOV" HorizontalAlignment="Left" Margin="0,59,0,0" TextWrapping="Wrap" FontSize="14" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="24" Width="78" Text="Language:"/>
+                    <TextBlock x:Name="outputFHeaderOV" HorizontalAlignment="Left" Margin="0,89,0,0" TextWrapping="Wrap" FontSize="14" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="24" Width="33" Text="File:"/>
+                </Grid>
+            </Viewbox>
+            <DockPanel x:Name="outputTypePanel" Grid.Column="1" HorizontalAlignment="Left" Height="15" VerticalAlignment="Top" Width="158" Margin="90,260,0,0">
+                <RadioButton x:Name="outputTypeSRadio" Content="Standard" Foreground="White" GroupName="outputVoiceTypes" IsChecked="True" Width="66"/>
+                <RadioButton x:Name="outputTypeDRadio" Content="DLC/Other" Foreground="White" GroupName="outputVoiceTypes" IsEnabled="False" ToolTip="Currently unsupported." Width="75" Opacity="0.5"/>
+            </DockPanel>
+            <Label x:Name="outputTypeLabel" Content="Type:" HorizontalAlignment="Left" Margin="0,252,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
+            <Label x:Name="outputVoiceLabel" Content="Voice:" HorizontalAlignment="Left" Margin="0,284,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
+            <ComboBox x:Name="outputVoiceComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="90,288,0,0" VerticalAlignment="Top" Width="158" SelectionChanged="OutputVoiceUpdate">
+                <ComboBoxItem Content="Voice 1" IsSelected="True"/>
+                <ComboBoxItem Content="Voice 2"/>
+                <ComboBoxItem Content="Voice 3"/>
+                <ComboBoxItem Content="Voice 4"/>
+                <ComboBoxItem Content="Voice 5"/>
+                <ComboBoxItem Content="Voice 6"/>
+                <ComboBoxItem Content="Voice 7"/>
+                <ComboBoxItem Content="Voice 8"/>
+                <ComboBoxItem Content="Voice 9"/>
+                <ComboBoxItem Content="Voice 10"/>
+                <ComboBoxItem Content="Voice 11"/>
+                <ComboBoxItem Content="Voice 12"/>
+                <ComboBoxItem Content="Voice 13"/>
+                <ComboBoxItem Content="Voice 14"/>
+                <ComboBoxItem Content="Voice 15"/>
+                <ComboBoxItem Content="Voice 16"/>
+                <ComboBoxItem Content="Voice 17"/>
+                <ComboBoxItem Content="Voice 18"/>
+                <ComboBoxItem Content="Voice 19"/>
+                <ComboBoxItem Content="Voice 20"/>
+            </ComboBox>
+            <Label x:Name="outputLangLabel" Content="Language:" HorizontalAlignment="Left" Margin="0,315,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
+            <StackPanel x:Name="outputLangPanel" Grid.Column="1" HorizontalAlignment="Left" Height="48" Margin="90,324,0,0" VerticalAlignment="Top" Width="158">
+                <RadioButton x:Name="outputLangERadio" Content="English" Foreground="White" GroupName="outputVoiceLanguages" IsChecked="True" Checked="OutputLangUpdate"/>
+                <RadioButton x:Name="outputLangJRadio" Content="Japanese" Foreground="White" GroupName="outputVoiceLanguages" IsChecked="False" Checked="OutputLangUpdate"/>
+                <RadioButton x:Name="outputLangFRadio" Content="Monster Hunter Language" Foreground="White" GroupName="outputVoiceLanguages" IsChecked="False" Checked="OutputLangUpdate" Opacity="0.5" IsEnabled="False"/>
+            </StackPanel>
+            <Grid x:Name="inputOV" Margin="307,92,53,239" Grid.Column="1">
+                <Label x:Name="inputVoiceOV" Content="Voice 1" HorizontalAlignment="Left" Margin="75,25,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+                <Label x:Name="inputLangOV" Content="English" HorizontalAlignment="Left" Margin="75,54,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+                <Label x:Name="inputFileOV" Content="pl_voice_m_01_media.pck.3.X64.En" HorizontalAlignment="Left" Margin="33,84,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14" Width="230"/>
+                <TextBlock x:Name="inputHeaderOV" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="14" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="25" Width="100" TextDecorations="Underline" Text="Input Voice"/>
+                <TextBlock x:Name="inputVHeaderOV" HorizontalAlignment="Left" Margin="0,30,0,0" TextWrapping="Wrap" FontSize="14" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="24" Width="50" Text="Voice:"/>
+                <TextBlock x:Name="inputLHeaderOV" HorizontalAlignment="Left" Margin="0,59,0,0" TextWrapping="Wrap" FontSize="14" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="24" Width="78" Text="Language:"/>
+                <TextBlock x:Name="inputFHeaderOV" HorizontalAlignment="Left" Margin="0,89,0,0" TextWrapping="Wrap" FontSize="14" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="24" Width="33" Text="File:"/>
+                <TextBlock x:Name="importedFileHeader" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="14" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" Height="24" Width="121" Text="Imported File:" Margin="0,-52,0,0"/>
+            </Grid>
+            <Label x:Name="inputTypeLabel" Content="Type:" HorizontalAlignment="Left" Margin="0,73,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14" FontWeight="Bold" Grid.Column="1" Opacity="0.5"/>
+            <Label x:Name="inputVoiceLabel" Content="Voice:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="14" FontWeight="Bold" Grid.Column="1" Margin="0,105,0,0" Opacity="0.5"/>
+            <Label x:Name="inputLangLabel" Content="Language:" HorizontalAlignment="Left" Margin="0,136,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14" FontWeight="Bold" Grid.Column="1" Opacity="0.5"/>
+            <DockPanel x:Name="inputTypePanel" Grid.Column="1" HorizontalAlignment="Left" Height="15" VerticalAlignment="Top" Width="158" Margin="90,81,0,0" Opacity="0.5">
+                <RadioButton x:Name="inputTypeSRadio" Content="Standard" Foreground="White" GroupName="inputVoiceTypes" IsChecked="True" Width="66" IsEnabled="False"/>
+                <RadioButton x:Name="inputTypeDRadio" Content="DLC/Other" Foreground="White" GroupName="inputVoiceTypes" IsEnabled="False" ToolTip="Currently unsupported." Width="75" Opacity="0.5"/>
+            </DockPanel>
+            <ComboBox x:Name="inputVoiceComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="90,109,0,0" VerticalAlignment="Top" Width="158" SelectionChanged="InputVoiceUpdate" IsEnabled="False" Opacity="0.5">
+                <ComboBoxItem Content="Voice 1" IsSelected="True"/>
+                <ComboBoxItem Content="Voice 2"/>
+                <ComboBoxItem Content="Voice 3"/>
+                <ComboBoxItem Content="Voice 4"/>
+                <ComboBoxItem Content="Voice 5"/>
+                <ComboBoxItem Content="Voice 6"/>
+                <ComboBoxItem Content="Voice 7"/>
+                <ComboBoxItem Content="Voice 8"/>
+                <ComboBoxItem Content="Voice 9"/>
+                <ComboBoxItem Content="Voice 10"/>
+                <ComboBoxItem Content="Voice 11"/>
+                <ComboBoxItem Content="Voice 12"/>
+                <ComboBoxItem Content="Voice 13"/>
+                <ComboBoxItem Content="Voice 14"/>
+                <ComboBoxItem Content="Voice 15"/>
+                <ComboBoxItem Content="Voice 16"/>
+                <ComboBoxItem Content="Voice 17"/>
+                <ComboBoxItem Content="Voice 18"/>
+                <ComboBoxItem Content="Voice 19"/>
+                <ComboBoxItem Content="Voice 20"/>
+            </ComboBox>
+            <StackPanel x:Name="inputLangPanel" Grid.Column="1" HorizontalAlignment="Left" Height="48" Margin="90,145,0,0" VerticalAlignment="Top" Width="158" Opacity="0.5">
+                <RadioButton x:Name="inputLangERadio" Content="English" Foreground="White" GroupName="inputVoiceLanguages" IsChecked="True" Checked="InputLangUpdate" IsEnabled="False"/>
+                <RadioButton x:Name="inputLangJRadio" Content="Japanese" Foreground="White" GroupName="inputVoiceLanguages" IsChecked="False" Checked="InputLangUpdate" IsEnabled="False"/>
+                <RadioButton x:Name="inputLangFRadio" Content="Monster Hunter Language" Foreground="White" GroupName="inputVoiceLanguages" IsChecked="False" Checked="InputLangUpdate" IsEnabled="False" Opacity="0.5"/>
+            </StackPanel>
+            <Button x:Name="importButton" Grid.Column="1" Content="Import File" HorizontalAlignment="Left" Height="31" Margin="14,38,0,0" VerticalAlignment="Top" Width="120" FontWeight="Bold" FontSize="14" Click="ImportPCKFile"/>
+            <CheckBox x:Name="manualCheckBox" Grid.Column="1" Content="Manual Mode" HorizontalAlignment="Left" Height="19" Margin="155,46,0,0" VerticalAlignment="Top" Width="102" Foreground="White" ToolTip="Enable the manual info input like what's in &quot;Output Voice&quot;. NOTE: There shouldn't be a reason to use this. Any issues that arise from using this mode will probably be ignored!" Checked="ManualModeToggle" IsChecked="False" Unchecked="ManualModeToggle"/>
+            <TextBox x:Name="importedFilePath" Grid.Column="1" HorizontalAlignment="Left" Height="26" Margin="327,61,0,0" TextWrapping="Wrap" Text="(No File Imported)" VerticalAlignment="Top" Width="234" IsReadOnly="True"/>
+        </Grid>
+    </Grid>
+</Window>
