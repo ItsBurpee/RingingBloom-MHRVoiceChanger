@@ -7,21 +7,20 @@
         mc:Ignorable="d"
         Name="Window"
         Title="PCK Editor" Height="450" Width="850" ResizeMode="CanMinimize"
-        Closing="SaveLabels"
         Background="#404040">
     <Grid>
-        <ToolBar Height="30" VerticalAlignment="Top">
+        <ToolBar Height="30" VerticalAlignment="Top" IsEnabled="False">
             <Menu>
-                <MenuItem Header="New" Click="MakeNPCK"/>
-                <MenuItem Header="Import" Click="ImportNPCK"/>
-                <MenuItem Header="Export" Click="ExportNPCK"/>
-                <MenuItem Header="Replace Wem" Click="Replace_Wem"/>
-                <MenuItem Header="Mass Replace" Click="Mass_Replace"/>
-                <MenuItem Header="Import Wems" Click="Import_Wems"/>
-                <MenuItem Header="Export Wems" Click="Export_Wems"/>
-                <MenuItem Header="Delete Wem" Click="Delete_Wem"/>
-                <MenuItem Header="ID Replace" Click="IDReplace"/>
-                <MenuItem Header="Help" Click="HelpMenu"/>
+                <MenuItem Header="New"/>
+                <MenuItem Header="Import"/>
+                <MenuItem Header="Export"/>
+                <MenuItem Header="Replace Wem"/>
+                <MenuItem Header="Mass Replace"/>
+                <MenuItem Header="Import Wems"/>
+                <MenuItem Header="Export Wems"/>
+                <MenuItem Header="Delete Wem"/>
+                <MenuItem Header="ID Replace"/>
+                <MenuItem Header="Help"/>
 
             </Menu>
         </ToolBar>
@@ -38,7 +37,7 @@
                         <Label Grid.Column="0" Foreground="#dcdcdc"  Content="Wem ID:"></Label>
                         <TextBox Grid.Column="0" Width="100" Name="TextBox1" Background="#303030" Foreground="#dcdcdc" Margin="50,0,0,0" Text="{Binding id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
                         <Label Grid.Column="1" Foreground="#dcdcdc" Content="Wem Name:"></Label>
-                        <TextBox Grid.Column="1" HorizontalAlignment="Left" Width="200" Margin="75,0,0,0" Background="#303030" Foreground="#dcdcdc" Text="{Binding name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="LabelChanged"></TextBox>
+                        <TextBox Grid.Column="1" HorizontalAlignment="Left" Width="200" Margin="75,0,0,0" Background="#303030" Foreground="#dcdcdc" Text="{Binding name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                         <Label Grid.Column="2" Foreground="#dcdcdc" Content="Language Enum:"/>
                         <ComboBox Grid.Column="2" Width="100" SelectedIndex="{Binding languageEnum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding DataContext.languages, ElementName=WemView}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="100,0,0,0"/>
                         <Label Grid.Column="3" Foreground="#dcdcdc" Content="Wem Length:"></Label>

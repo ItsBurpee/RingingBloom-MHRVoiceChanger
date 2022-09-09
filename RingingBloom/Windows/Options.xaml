@@ -13,8 +13,8 @@
         <TextBox x:Name="DefaultImport" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,50,10,0"/>
         <Label Name="LabelB" Content="Default Export Path" HorizontalAlignment="Left" Foreground="#AAAAAA" VerticalAlignment="Top" Margin="10,70,0,0"/>
         <TextBox x:Name="DefaultExport" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,105,10,0"/>
-        <Label Name="LabelC" Content="Default Game" HorizontalAlignment="Left" Foreground="#AAAAAA" VerticalAlignment="Top" Margin="10,125,0,0"/>
-        <ComboBox x:Name="DefaultGame" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,160,250,0">
+        <Label Name="LabelC" Content="Made for:" HorizontalAlignment="Left" Foreground="#AAAAAA" VerticalAlignment="Top" Margin="10,125,0,0"/>
+        <ComboBox x:Name="DefaultGame" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,160,250,0" IsEnabled="False">
             <ComboBoxItem Content="None" Tag="0"/>
             <ComboBoxItem Content="MHWorld" Tag="1"/>
             <ComboBoxItem Content="RE2/DMC5" Tag="2"/>

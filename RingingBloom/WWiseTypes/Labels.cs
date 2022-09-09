@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Linq;
-using RingingBloom.Common;
 using System.IO;
+using MHRVoiceChanger.WWiseTypes.Common;
 
-namespace RingingBloom.WWiseTypes
+namespace MHRVoiceChanger.WWiseTypes
 {
     public class Labels
     {

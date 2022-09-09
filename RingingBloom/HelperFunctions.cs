@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using RingingBloom.Common;
+using MHRVoiceChanger.WWiseTypes.Common;
 
-namespace RingingBloom
+namespace MHRVoiceChanger
 {
     class HelperFunctions
     {

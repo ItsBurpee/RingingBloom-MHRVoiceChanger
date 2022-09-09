@@ -1,10 +1,10 @@
-﻿using RingingBloom.Common;
+﻿using MHRVoiceChanger.WWiseTypes.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-namespace RingingBloom
+namespace MHRVoiceChanger
 {
     public class Options
     {
@@ -18,7 +18,7 @@ namespace RingingBloom
         {
             defaultImport = null;
             defaultExport = null;
-            defaultGame = SupportedGames.MHWorld;
+            defaultGame = SupportedGames.MHRise;
             wwisePath = null;
             defaultProjectPath = null;
         }
@@ -56,23 +56,8 @@ namespace RingingBloom
                     case "DefaultGame":
                         switch (xml.ReadElementContentAsString())
                         {
-                            case "MHWorld":
-                                defaultGame = SupportedGames.MHWorld;
-                                break;
-                            case "RE2DMC5":
-                                defaultGame = SupportedGames.RE2DMC5;
-                                break;
-                            case "RE3R":
-                                defaultGame = SupportedGames.RE3R;
-                                break;
                             case "MHRise":
                                 defaultGame = SupportedGames.MHRise;
-                                break;
-                            case "MHRiseSwitch":
-                                defaultGame = SupportedGames.MHRiseSwitch;
-                                break;
-                            case "RE8":
-                                defaultGame = SupportedGames.RE8;
                                 break;
                             default:
                                 break;

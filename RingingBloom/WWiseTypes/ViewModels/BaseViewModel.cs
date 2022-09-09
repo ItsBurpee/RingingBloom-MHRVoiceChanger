@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace RingingBloom.WWiseTypes.ViewModels
+namespace MHRVoiceChanger.WWiseTypes.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {

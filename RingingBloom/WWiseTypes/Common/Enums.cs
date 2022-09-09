@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RingingBloom.Common
+namespace MHRVoiceChanger.WWiseTypes.Common
 {
     public enum SupportedGames
     {

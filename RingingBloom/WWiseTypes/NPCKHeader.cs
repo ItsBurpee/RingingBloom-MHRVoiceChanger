@@ -1,15 +1,13 @@
-﻿using System;
+﻿using MHRVoiceChanger;
+using MHRVoiceChanger.WWiseTypes.Common;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Xml;
-using RingingBloom.Common;
-using RingingBloom.WWiseTypes;
 
-namespace RingingBloom
+namespace MHRVoiceChanger.WWiseTypes
 {
     public class PCKString
     {
@@ -39,6 +37,10 @@ namespace RingingBloom
             value = Value;
         }
     }
+    /* EDITED for the MHRVoiceChanger
+    General Changes:
+        Changed how the wem names are written to help with the conversion process
+    */
     public class NPCKHeader
     {
         public SupportedGames mode = SupportedGames.None;
@@ -112,7 +114,13 @@ namespace RingingBloom
                 }
                 else
                 {
-                    name = "Imported Wem " + i;
+                    // EDITED: Changed the wem names to this format: ###.wem
+                    string adjustedName = i.ToString();
+                    while(adjustedName.Length < 3)
+                    {
+                        adjustedName = "0" + adjustedName;
+                    }
+                    name = adjustedName + ".wem";
                 }
                 Wem newWem = new Wem(name, id, file, languageEnum);
                 WemList.Add(newWem);

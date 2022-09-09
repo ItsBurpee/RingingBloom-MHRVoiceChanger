@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace RingingBloom.Common
+namespace MHRVoiceChanger.WWiseTypes.Common
 {
     public class Wem
     {

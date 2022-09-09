@@ -1,15 +1,15 @@
-﻿using System;
+﻿using MHRVoiceChanger.WWiseTypes.Common;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using RingingBloom.Common;
-using RingingBloom.Windows;
 
-namespace RingingBloom.WWiseTypes.ViewModels
+namespace MHRVoiceChanger.WWiseTypes.ViewModels
 {
+    /* EDITED for the MHRVoiceChanger
+    General Changes:
+         Removed "MassReplace" and edited the "Export" functions
+    */
     public class NPCKViewModel  : BaseViewModel
     {
         public NPCKHeader npck = null;//shouldn't have to bind directly to this
@@ -83,32 +83,28 @@ namespace RingingBloom.WWiseTypes.ViewModels
             OnPropertyChanged("wems");
         }
 
-        public void ExportWems(MessageBoxResult exportIds, string savePath)
+        /* EDITED for the MHRVoiceChanger
+            Removed the prompt to save with names
+            It must save with names to work with the Voice Changer components
+        */
+        public void ExportWems(string savePath)
         {
             foreach (Wem newWem in npck.WemList)
             {
-                string name;
-                if (exportIds == MessageBoxResult.Yes)
-                {
-                    name = savePath + "\\" + newWem.name + ".wem";
-                }
-                else
-                {
-                    name = savePath + "\\" + newWem.id + ".wem";
-                }
+                string name = savePath + "\\" + newWem.name;
                 BinaryWriter bw = new BinaryWriter(new FileStream(name, FileMode.OpenOrCreate));
                 bw.Write(newWem.file);
                 bw.Close();
             }
         }
 
-        public void ExportNPCK(string fileName, SupportedGames mode)
+        /* EDITED for the MHRVoiceChanger
+            Rather than putting the header file alongside the main file, it places it in the correct mod directory for a Fluffy mod
+        */
+        public void ExportNPCK(string[] filePaths)
         {
-            npck.ExportFile(fileName);
-            if (mode == SupportedGames.RE2DMC5 || mode == SupportedGames.RE3R || mode == SupportedGames.MHRise || mode == SupportedGames.RE8)
-            {
-                npck.ExportHeader(fileName + ".nonstream");
-            }
+            npck.ExportFile(filePaths[0]);
+            npck.ExportHeader(filePaths[1]);
         }
 
         public void IDReplace(string[] id2)
@@ -142,20 +138,5 @@ namespace RingingBloom.WWiseTypes.ViewModels
             return wemIds;
         }
 
-        public void MassReplace(List<ReplacingWem> mass)
-        {
-            for (int i = 0; i < mass.Count; i++)
-            {
-                int index = npck.WemList.FindIndex(x => x.id == mass[i].replacingId);
-                Wem newWem = mass[i].wem;
-                if (index != -1)
-                {
-                    newWem.id = npck.WemList[index].id;
-                    newWem.languageEnum = npck.WemList[index].languageEnum;
-                    npck.WemList[index] = newWem;
-                }
-            }
-            OnPropertyChanged("Wems");
-        }
     }
 }
