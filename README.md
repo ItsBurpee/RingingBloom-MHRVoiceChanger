@@ -4,7 +4,7 @@ Allow the reassigning of voices to other voices. This means that any voice or vo
 This is a modified version of Silvris's RingingBloom tool that's written in C#
 It mainly focuses on using it's PCK Editor
 
-You can download it's latest version in the Releases: (Pending)
+You can download the latest version in the Releases: (Pending)
 
 ## How to Use:
 1. Load the .pck file with the "Import File" button (It should auto-detect its information in the "Overview")
