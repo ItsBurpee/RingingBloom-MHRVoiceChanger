@@ -5,6 +5,7 @@ This is a modified version of Silvris's RingingBloom tool that's written in C#
 It mainly focuses on using it's PCK Editor
 
 You can download the latest version in the Releases: (Pending)
+Alternatively, you can clone this repo and build the solution in Visual Studio
 
 ## How to Use:
 1. Load the .pck file with the "Import File" button (It should auto-detect its information in the "Overview")
