@@ -6,8 +6,6 @@ It mainly focuses on using it's PCK Editor
 
 You can download it's latest version in the Releases: (Pending)
 
-[OLD]
-
 ## How to Use:
 1. Load the .pck file with the "Import File" button (It should auto-detect its information in the "Overview")
 2. Select the voice to convert to with the "Output Voice" options
