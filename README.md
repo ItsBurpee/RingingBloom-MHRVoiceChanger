@@ -1,28 +1,60 @@
-# RingingBloom
-A small set of tools made for audio modding for WWise in Capcom games (primarily focused on Monster Hunter: World), written in C#.
+# MHRVoiceChanger
+Allow the reassigning of voices to other voices. This means that any voice or voice mod is compatible with (almost) any other voice!
 
-Some how-to-use guides can be found on the [wiki](https://github.com/Silvris/RingingBloom/wiki).
+This is a modified version of Silvris's RingingBloom program that's written in C#.
+It mainly focuses on using it's PCK Editor.
 
-# Contents
-* BNK Editor - for editing WWise Soundbanks (.nbnk/.bnk)
-* PCK Editor - for creating, adding, and replacing files within a WWise Package (.npck/.pck)
-* Loop Calculator - for calculating odd loop times present within WWise Soundbanks
-* Wem Creator - simplifies the process of creating wems (requires a valid installation of WWise)
-* WWCT Editor - for editing the contents of a Monster Hunter World WWise Container file (.wwct)
-* WWBK/PK Editor - for editing the contents of a Monster Hunter World WWise Bank List (.wwbk) or a WWise Package List (.wwpk)
-* EPVSP Editor - for editing Monster Hunter World EPV Sound Parameter files (.epvsp)
+You can download it's latest version in the Releases: ...
 
---To-Do--
-* WWEV Editor - for editing WWise Event Lists (.wwev)
-* RSZ Editor - for editing various sound-related files in RE Engine games (.wcp, .wcbk, .wcc)
-* WEL Editor - for editing WWise Event Lists from RE Engine games (.wel)
+[OLD]
 
-# Credits
-* FateEX for testing both the program and several ideas that led to added implementation, as well as contributing some ideas for features
-* hpxro for his [wwiseutil](https://github.com/hpxro7/wwiseutil) which was useful for npck structure.
-* Elliot in the MHW Modding Discord for several things, most notably proper class names for several files.
-* NSACloud for testing, and providing information on PCK's language header
-* FluffyQuack for his automated wav-to-wem converter, which was used as reference for the Wem Creator
+## How to Use:
+1. Load the .nbnk file with the "Load File" button (It should auto-detect its information in the "Overview")
+2. Select the voice to convert to with the "Output Voice" options
+3. Click the "CONVERT" button to convert
+4. Determine where to save the new .nbnk file
+	- This step is skipped if 'Save to "Output"' is enabled
 
-# Installation
-Just download the most recent release in the Releases tab to the right. Alternatively, clone the repository and build the solution.
+- If the conversion is successful, your new voice file should be in the folder you saved it to
+	- If 'Save to "Output"' is enabled, it will be in a folder called "Output" in the same folder as the .exe
+- If the conversion failed, you can check the console to see what happened
+
+## RED TEXT:
+Red text indicates issues or unsupported voices
+
+- Wwiseutil: ERROR
+  - The program couldn't find "wwiseutil.exe"
+  - Make sure it's in the same folder as the program and it's renamed correctly
+- DB Version: ERROR
+  - The program can't read the "version" table from the database file: MHWCharacterVoices.db
+  - Make sure the MHWCharacterVoices.db is in the same folder as the .exe
+- In the "Overview"
+  - The selected voice doesn't have information on it
+  - I do apologize if you're on one of those voices. I'll get to it at some point (Or you can help by filling it out)
+  - You can check if your voice is supported in the spreadsheet under **"DO NOT DELETE"**
+  
+## Other Notes:
+- This program opens a console alongside itself
+	- This is used to track errors or progress
+	- If your conversion fails, look for errors in the console
+- There is a "Manual Mode" option in the "Input Voice" section
+	- DO NOT turn on unless you know what you're doing
+		- It's for cases where you rename files but understand what they do
+	- DO NOT use it to do Ciri, Geralt, Leon, or Claire conversions
+		- It won't work. And if it does, it won't sound right
+  - There is a 'Save to "Output"' option in the "Output Voice" section
+	  - It reverts the saving behaviour to that of the pervious version
+    
+## Do Not Delete:
+- EmptyNbnks
+	- This folder holds the placeholder nbnks for conversion
+	- They hold the metadata for each voice
+- MHWCharacterVoices.db
+	- A database that holds information about character voices
+	- A link to the spreadsheet it's based on is here: https://docs.google.com/spreadsheets/d/17__upp0CDmhdhVOS6Wk8Us27Yai-Xf3N1sudkrY9yvE/
+  
+### Thanks To/Dependencies:
+- Richard Jarvis for the appJar library which powers this program
+- hpxro7 for the MHW Audio Modding Tool
+	- The link to that tool's GitHub is here: https://github.com/hpxro7/wwiseutil 
+- D. Richard Hipp for SQLite3
