@@ -1,60 +1,78 @@
 # MHRVoiceChanger
 Allow the reassigning of voices to other voices. This means that any voice or voice mod is compatible with (almost) any other voice!
 
-This is a modified version of Silvris's RingingBloom program that's written in C#.
-It mainly focuses on using it's PCK Editor.
+This is a modified version of Silvris's RingingBloom tool that's written in C#
+It mainly focuses on using it's PCK Editor
 
-You can download it's latest version in the Releases: ...
+You can download it's latest version in the Releases: (Pending)
 
 [OLD]
 
 ## How to Use:
-1. Load the .nbnk file with the "Load File" button (It should auto-detect its information in the "Overview")
+1. Load the .pck file with the "Import File" button (It should auto-detect its information in the "Overview")
 2. Select the voice to convert to with the "Output Voice" options
 3. Click the "CONVERT" button to convert
-4. Determine where to save the new .nbnk file
-	- This step is skipped if 'Save to "Output"' is enabled
 
-- If the conversion is successful, your new voice file should be in the folder you saved it to
-	- If 'Save to "Output"' is enabled, it will be in a folder called "Output" in the same folder as the .exe
-- If the conversion failed, you can check the console to see what happened
+- If the conversion is successful, your new voice mod should be in a folder named "Output Voice Mod"
+	- This folder is ready for Fluffy Manager but it's recommended to rename the modinfo.ini file according to what you converted
+- If the conversion failed, check the error message that comes up
 
-## RED TEXT:
-Red text indicates issues or unsupported voices
+- An in-depth description about that this program does can be found under **"Conversion Explained"**
 
-- Wwiseutil: ERROR
-  - The program couldn't find "wwiseutil.exe"
-  - Make sure it's in the same folder as the program and it's renamed correctly
+## Errors:
+Red text indicates issues or unsupported voices outside of the Imported File Path
+
 - DB Version: ERROR
-  - The program can't read the "version" table from the database file: MHWCharacterVoices.db
-  - Make sure the MHWCharacterVoices.db is in the same folder as the .exe
-- In the "Overview"
+  - The program can't read the "version" table from the database file: MHRCharacterVoices.db
+  - Make sure the MHRCharacterVoices.db is in the same folder as the .exe
+- Overview File
   - The selected voice doesn't have information on it
-  - I do apologize if you're on one of those voices. I'll get to it at some point (Or you can help by filling it out)
-  - You can check if your voice is supported in the spreadsheet under **"DO NOT DELETE"**
+  - I do apologize if you're on one of those voices. I'll get to it at some point
+  - You can check if your voice is supported in the spreadsheet under **"Other Notes"**
+- Overview Imported File
+  - The file described by the import path couldn't be found
+  - This is for the case where the file's location changes before the "CONVERT" button was pressed
   
 ## Other Notes:
 - This program opens a console alongside itself
 	- This is used to track errors or progress
 	- If your conversion fails, look for errors in the console
 - There is a "Manual Mode" option in the "Input Voice" section
-	- DO NOT turn on unless you know what you're doing
-		- It's for cases where you rename files but understand what they do
-	- DO NOT use it to do Ciri, Geralt, Leon, or Claire conversions
-		- It won't work. And if it does, it won't sound right
-  - There is a 'Save to "Output"' option in the "Output Voice" section
-	  - It reverts the saving behaviour to that of the pervious version
-    
-## Do Not Delete:
-- EmptyNbnks
-	- This folder holds the placeholder nbnks for conversion
-	- They hold the metadata for each voice
-- MHWCharacterVoices.db
+	- There shoudn't be a case where you have to turn this on
+		- DO NOT use this mode to bypass any of the errors described above
+- MHRCharacterVoices.db
 	- A database that holds information about character voices
-	- A link to the spreadsheet it's based on is here: https://docs.google.com/spreadsheets/d/17__upp0CDmhdhVOS6Wk8Us27Yai-Xf3N1sudkrY9yvE/
+	- A link to the spreadsheet it's based on is here: https://docs.google.com/spreadsheets/d/1r2K97igdGBfjWyFoHlzHB75ECZ6SqfS209V8WWGxy18/
+    
+## Conversion Explained:
+When this program opens, RingingBloom's PCK editor runs in the background. When you close this program, the PCK editor will do the same
+
+Upon pressing the "CONVERT" button, the program will do the following: (Sections in bracket is the RingingBloom equivalent)
+1. Read the file provided in the "Imported File" section and give it to the PCK editor (RingingBloom: Import)
+2. Create an "inputWems" folder and export the wems into it (RingingBloom: Export Wems, Export with names)
+3. Create an "outputWems" folder and use the SQLite database to rename and move each wem to that folder
+	- There can be voice exception cases during this step:
+		- Voice 19 is only on 1 of the target files
+			- This file has 2 more voice files than the standard file
+			- On input, it will delete the 2 extra files
+			- On output, it will copy the first 2 files assigned to that category
+4. Reimport the wems into the PCK editor and reassign their IDs (RingingBloom: New -> ID Replace)
+	- At this point, the "inputWems" and "outputWems" folders are deleted
+5. Export the PCK file into a Fluffy ready folder (RingingBloom: Export)
+	- The file is exported to this path: ./Output Voice Mod/natives/STM/streaming/Sound/Wwise/
+	- The header file is exported to this path: ./Output Voice Mod/natives/STM/Sound/Wwise/
+6. Create a "modinfo.ini" file in the Fluffy ready folder with some basic information
   
 ### Thanks To/Dependencies:
-- Richard Jarvis for the appJar library which powers this program
-- hpxro7 for the MHW Audio Modding Tool
-	- The link to that tool's GitHub is here: https://github.com/hpxro7/wwiseutil 
+- Silvris and everyone else who contributed to the RingingBloom tool
+	- The link to that tool's GitHub is here: https://github.com/Silvris/RingingBloom
 - D. Richard Hipp for SQLite3
+
+### To-do:
+- Cover more voices
+	- This would also progress the program's version
+- More features
+	- Give the user some options to play around with
+- Optimization
+	- The program's size and runtime could be improved?
+
