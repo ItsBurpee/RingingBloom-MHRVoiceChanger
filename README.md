@@ -17,7 +17,7 @@ You can download the latest version in the Releases: https://github.com/ItsBurpe
 	- This folder is ready for Fluffy Manager but it's recommended to rename the modinfo.ini file according to what you converted
 - If the conversion failed, check the error message that comes up
 
-- An in-depth description about that this program does can be found under **"Conversion Explained"**
+- An in-depth description about what this program does can be found under **"Conversion Explained"**
 
 ## Errors:
 Red text indicates issues or unsupported voices outside of the Imported File Path
