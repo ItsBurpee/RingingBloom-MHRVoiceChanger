@@ -14,7 +14,7 @@ You can download the latest version in the Releases: https://github.com/ItsBurpe
 3. Click the "CONVERT" button to convert
 
 - If the conversion is successful, your new voice mod should be in a folder named "Output Voice Mod"
-	- This folder is ready for Fluffy Manager but it's recommended to rename the modinfo.ini file according to what you converted
+	- This folder is ready for Fluffy Manager but it's recommended to rename the "modinfo.ini" file according to what you converted
 - If the conversion failed, check the error message that comes up
 
 - An in-depth description about what this program does can be found under **"Conversion Explained"**
