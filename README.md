@@ -8,6 +8,8 @@ You can download the latest version in the Releases: https://github.com/ItsBurpe
 
 ## How to Use:
 1. Load the .pck file with the "Import File" button (It should auto-detect its information in the "Overview")
+	- IMPORTANT: Make sure you get the "streaming" file! There's another file with the same name in a different directory.
+  		- That file can be found with this directory: .../natives/STM/streaming/Sound/Wwise/
 2. Select the voice to convert to with the "Output Voice" options
 3. Click the "CONVERT" button to convert
 
@@ -21,15 +23,15 @@ You can download the latest version in the Releases: https://github.com/ItsBurpe
 Red text indicates issues or unsupported voices outside of the Imported File Path
 
 - DB Version: ERROR
-  - The program can't read the "version" table from the database file: MHRCharacterVoices.db
-  - Make sure the MHRCharacterVoices.db is in the same folder as the .exe
+	- The program can't read the "version" table from the database file: MHRCharacterVoices.db
+	- Make sure the MHRCharacterVoices.db is in the same folder as the .exe
 - Overview File
-  - The selected voice doesn't have information on it
-  - I do apologize if you're on one of those voices. I'll get to it at some point
-  - You can check if your voice is supported in the spreadsheet under **"Other Notes"**
+	- The selected voice doesn't have information on it
+	- I do apologize if you're on one of those voices. I'll get to it at some point
+	- You can check if your voice is supported in the spreadsheet under **"Other Notes"**
 - Overview Imported File
-  - The file described by the import path couldn't be found
-  - This is for the case where the file's location changes before the "CONVERT" button was pressed
+	- The file described by the import path couldn't be found
+	- This is for the case where the file's location changes before the "CONVERT" button was pressed
   
 ## Other Notes:
 - This program opens a console alongside itself
