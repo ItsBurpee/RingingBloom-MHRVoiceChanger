@@ -1,8 +1,7 @@
 # MHRVoiceChanger
 Allow the reassigning of voices to other voices. This means that any voice or voice mod is compatible with (almost) any other voice!
 
-This is a modified version of Silvris's RingingBloom tool that's written in C#
-It mainly focuses on using it's PCK Editor
+This is a modified version of Silvris's RingingBloom tool that's written in C#. It mainly focuses on using it's PCK Editor
 
 You can download the latest version in the Releases: https://github.com/ItsBurpee/RingingBloom-MHRVoiceChanger/releases
 
@@ -66,6 +65,7 @@ Upon pressing the "CONVERT" button, the program will do the following: (Sections
 ### Thanks To/Dependencies:
 - Silvris and everyone else who contributed to the RingingBloom tool
 	- The link to that tool's GitHub is here: https://github.com/Silvris/RingingBloom
+- FluffyQuack for creating the Fluffy Manager 5000 Tool
 - D. Richard Hipp for SQLite3
 
 ### To-do:
