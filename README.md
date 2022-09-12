@@ -33,9 +33,6 @@ Red text indicates issues or unsupported voices outside of the Imported File Pat
 	- This is for the case where the file's location changes before the "CONVERT" button was pressed
   
 ## Other Notes:
-- This program opens a console alongside itself
-	- This is used to track errors or progress
-	- If your conversion fails, look for errors in the console
 - There is a "Manual Mode" option in the "Input Voice" section
 	- There shoudn't be a case where you have to turn this on
 		- DO NOT use this mode to bypass any of the errors described above
