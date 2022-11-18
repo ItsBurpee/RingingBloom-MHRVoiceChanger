@@ -76,7 +76,7 @@ namespace RingingBloom
             {
                 ComboBoxItem DefaultGame = (ComboBoxItem)optionWindow.DefaultGame.SelectedItem;
                 int defaultGame = Convert.ToInt32(DefaultGame.Tag);
-                options = new Options(optionWindow.DefaultImport.Text, optionWindow.DefaultExport.Text, (SupportedGames)defaultGame, optionWindow.WWiseExePath.Text, optionWindow.DefaultProjectPath.Text);
+                options = new Options(optionWindow.DefaultImport.Text, optionWindow.DefaultExport.Text, (SupportedGames)defaultGame);
                 options.WriteOptions();
                 mode = options.defaultGame;
             }
@@ -120,6 +120,18 @@ namespace RingingBloom
                 // TRY: Importing the file and updating the overview
                 try
                 {
+                    //IF: The imported file's size is LESS than ~13 KB, confirm with the user if the file's the header file
+                    if (new System.IO.FileInfo(importFile.FileName).Length < 13000)
+                    {
+                        MessageBoxResult sizeCheck = MessageBox.Show("The file imported might be the header file due to its small size. If it is, the conversion won't work.\n\nAre you sure you imported the 'streaming' PCK file?", "Warning: Incorrect File?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    
+                        //IF: The user says "No" to the warning, cancel the import process
+                        if (sizeCheck == MessageBoxResult.No)
+                        {
+                            return;
+                        }
+                    }
+
                     // Get the file path and parse it for its name, voice and language
                     currentFilePath = importFile.FileName;
                     string currentFileName = currentFilePath.Split("\\").Last();
@@ -143,6 +155,7 @@ namespace RingingBloom
                 }
             }
         }
+
 
         /* SUMMARY: ConvertPCKFile
         Executes the conversion displayed in the overview
@@ -173,7 +186,7 @@ namespace RingingBloom
                 // IF: the file path is invalid, state so and stop 
                 if (!File.Exists(currentFilePath))
                 {
-                    MessageBox.Show("Unable to read the imported file! It's file path may have changed.", "Error: Bad Import Path", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Unable to read the imported file! It's file path may have changed.", "Error: Bad Import Path", MessageBoxButton.OK, MessageBoxImage.Error);
                     currentFilePath = null;
                     importedFilePath.Text = "ERROR";
                     CheckFileStatus();
@@ -195,7 +208,7 @@ namespace RingingBloom
                 npckEditor.Reimport_Wems();
 
                 // ID Replace all the files
-                string convertedIDList = IDLists.getIDList((string)outputFileOV.Content);
+                string convertedIDList = voiceDatabase.GetIDList((string)outputFileOV.Content);
                 npckEditor.IDReplace(convertedIDList);
 
                 // Export the PCK file and write the mod's information in a Fluffy ready folder
@@ -204,6 +217,7 @@ namespace RingingBloom
                 MessageBox.Show("Conversion Complete!\nLook for the 'Output Voice Mod' in this folder for your voice mod.\n\nIt's suggested to open it's 'modinfo.ini' file and renaming it to something more approriate.", "Conversion Complete");
             }
         }
+
 
         /* SUMMARY: WriteModInfo
         Writes the 'modinfo.ini' file for the converted voice mod
@@ -231,6 +245,7 @@ namespace RingingBloom
 
             File.WriteAllLinesAsync(modBaseDirPath + "modinfo.ini", lines);
         }
+
 
         /* SUMMARY: ManualModeToggle
         Toggles the "Manual Mode" section of the Input Voice
@@ -266,8 +281,9 @@ namespace RingingBloom
 
             inputLangERadio.IsEnabled = manualModeEnabled;
             inputLangJRadio.IsEnabled = manualModeEnabled;
-            //inputLangFRadio.IsEnabled = manualModeEnabled;
+            inputLangFRadio.IsEnabled = manualModeEnabled;
         }
+
 
         /* SUMMARY: InputVoiceUpdate
         Updates the input voice in the overview
@@ -278,6 +294,7 @@ namespace RingingBloom
             inputVoiceOV.Content = selectedItem.Content;
             InputFileUpdate();
         }
+
 
         /* SUMMARY: InputLangUpdate
         Updates the input language in the overview
@@ -293,6 +310,7 @@ namespace RingingBloom
                 }
             }
         }
+
 
         /* SUMMARY: InputFileUpdate
         Updates the input file name in the overview
@@ -316,6 +334,7 @@ namespace RingingBloom
             OutputFileUpdate();
         }
 
+
         /* SUMMARY: OutputLangUpdate
         Updates the output language in the overview
         */
@@ -331,6 +350,7 @@ namespace RingingBloom
             }
         }
 
+
         /* SUMMARY: OutputFileUpdate
         Updates the output file name in the overview
         */
@@ -342,17 +362,12 @@ namespace RingingBloom
             CheckFileStatus();
         }
 
+
         /* SUMMARY: CheckFileStatus
         Checks if the given conversion is valid
         */
         private void CheckFileStatus()
         {
-            // IF: An error IS ALREADY present, don't check the conversion
-            if (errorType > 1)
-            {
-                statusLabel.Text = "ERROR";
-                return;
-            }
 
             // IF: There's no file imported, wait for the user to import one
             if (currentFilePath == null)
@@ -361,44 +376,58 @@ namespace RingingBloom
                 return;
             }
 
-            // TRY: Getting the ID list for the input file
-            // The presence of an ID list will determine if the file is support by the current version of the program
+            bool errorPresent = false;
+
+            // TRY: Checking the ready flag for the input file
             try
             {
-                IDLists.getIDList((string)inputFileOV.Content);
+                //IF: The voice file isn't ready, throw an exception
+                if (!voiceDatabase.IsReady((string)inputFileOV.Content))
+                {
+                    throw new InvalidOperationException();
+                }
                 inputFileOV.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFFF");
             }
-            // CATCH: The ID list wasn't found, raise the corresponding error
-            // This may change if the ID lists move to the SQLite database
-            catch
+            // CATCH: The voice file isn't ready, raise the corresponding error
+            catch (Exception ex) when (ex is InvalidOperationException || ex is System.Data.SQLite.SQLiteException)
             {
-                statusLabel.Text = "ERROR";
                 inputFileOV.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF0000");
                 errorType = 1;
-                return;
+                errorPresent = true;
             }
 
-            // TRY: Getting the ID list for the output file
-            // The presence of an ID list will determine if the file is support by the current version of the program
+            // TRY: Checking the ready flag for the output file
             try
             {
-                IDLists.getIDList((string)outputFileOV.Content);
+                //IF: The voice file isn't ready, throw an exception
+                if (!voiceDatabase.IsReady((string)outputFileOV.Content))
+                {
+                    throw new InvalidOperationException();
+                }
                 outputFileOV.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFFF");
             }
-            // CATCH: The ID list wasn't found, raise the corresponding error
-            // This may change if the ID lists move to the SQLite database
-            catch
+            // CATCH: The voice file isn't ready, raise the corresponding error
+            catch (Exception ex) when (ex is InvalidOperationException || ex is System.Data.SQLite.SQLiteException)
             {
-                statusLabel.Text = "ERROR";
                 outputFileOV.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF0000");
                 errorType = 1;
-                return;
+                errorPresent = true;
             }
 
-            // The conversion is valid as both ID lists are present
-            statusLabel.Text = "READY";
-            errorType = 0;
+            // IF: An error was present, state so
+            if (errorPresent)
+            {
+                statusLabel.Text = "ERROR";
+            }
+            // ELSE: if not, the conversion is ready
+            else
+            {
+                statusLabel.Text = "READY";
+                errorType = 0;
+            }
+
         }
+
 
         /* SUMMARY: CloseProgram
         Shutdowns the entire program
@@ -408,6 +437,7 @@ namespace RingingBloom
         {
             Application.Current.Shutdown();
         }
+
 
         /* SUMMARY: ErrorBoxHandler
         Handles user error messages
@@ -419,15 +449,15 @@ namespace RingingBloom
             {
                 // CASE 1: One of the files are unsupported
                 case 1:
-                    MessageBox.Show("One of the files are unsupported.", "Error: Unsupported File", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("One of the files are unsupported.\nYou can check the database spreadsheet to see if those files are supported.", "Error: Unsupported File", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                 // CASE 2: Bad import file path
                 case 2:
-                    MessageBox.Show("Unable to read the imported file.\nEither it's unsupported or the incorrect format.", "Error: Bad Import Path", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Unable to read the imported file.\nEither it's unsupported or the incorrect format.", "Error: Bad Import Path", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
                 // CASE 3: The DB failed to load
                 case 3:
-                    MessageBox.Show("Unable to load 'MHRVoiceDatabase.db'.\nMake sure it's updated and it's in the same folder as this program!", "Error: Can't Read Database", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Unable to load 'MHRVoiceDatabase.db'.\nMake sure it's updated and it's in the same folder as this program!", "Error: Can't Read Database", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
             }
         }

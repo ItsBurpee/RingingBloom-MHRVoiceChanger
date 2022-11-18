@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="VoiceChanger\IDLists.cs" />
     <Compile Remove="Windows\EPVSPEditor.xaml.cs" />
     <Compile Remove="Windows\LoopCalculator.xaml.cs" />
     <Compile Remove="Windows\MassReplace.xaml.cs" />

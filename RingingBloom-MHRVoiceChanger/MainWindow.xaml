@@ -13,8 +13,8 @@
     </Window.Resources>
     <Grid Name="mainGrid" Margin="0,0,0,0">
         <Menu Height="20" VerticalAlignment="Top">
-            <MenuItem Name="Options" Header="Options" Click="SetOptions" ToolTip="Options. Mainly for changing the default directories the program looks at." IsEnabled="False"/>
-            <TextBlock x:Name="programVersion" Text="Version: 0.79"/>
+            <MenuItem Name="Options" Header="Options" Click="SetOptions" ToolTip="Options. Mainly for changing the default directories the program looks at."/>
+            <TextBlock x:Name="programVersion" Text="Version: 0.92"/>
             <TextBlock x:Name="dbVersion" Text="DB Version: 0.00"/>
         </Menu>
         <Grid HorizontalAlignment="Center" Height="444" Margin="0,20,0,0" VerticalAlignment="Top" Width="640">
@@ -73,7 +73,7 @@
             <StackPanel x:Name="outputLangPanel" Grid.Column="1" HorizontalAlignment="Left" Height="48" Margin="90,324,0,0" VerticalAlignment="Top" Width="158">
                 <RadioButton x:Name="outputLangERadio" Content="English" Foreground="White" GroupName="outputVoiceLanguages" IsChecked="True" Checked="OutputLangUpdate"/>
                 <RadioButton x:Name="outputLangJRadio" Content="Japanese" Foreground="White" GroupName="outputVoiceLanguages" IsChecked="False" Checked="OutputLangUpdate"/>
-                <RadioButton x:Name="outputLangFRadio" Content="Monster Hunter Language" Foreground="White" GroupName="outputVoiceLanguages" IsChecked="False" Checked="OutputLangUpdate" Opacity="0.5" IsEnabled="False"/>
+                <RadioButton x:Name="outputLangFRadio" Content="Monster Hunter Language" Foreground="White" GroupName="outputVoiceLanguages" IsChecked="False" Checked="OutputLangUpdate"/>
             </StackPanel>
             <Grid x:Name="inputOV" Margin="307,92,53,239" Grid.Column="1">
                 <Label x:Name="inputVoiceOV" Content="Voice 1" HorizontalAlignment="Left" Margin="75,25,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
@@ -117,7 +117,7 @@
             <StackPanel x:Name="inputLangPanel" Grid.Column="1" HorizontalAlignment="Left" Height="48" Margin="90,145,0,0" VerticalAlignment="Top" Width="158" Opacity="0.5">
                 <RadioButton x:Name="inputLangERadio" Content="English" Foreground="White" GroupName="inputVoiceLanguages" IsChecked="True" Checked="InputLangUpdate" IsEnabled="False"/>
                 <RadioButton x:Name="inputLangJRadio" Content="Japanese" Foreground="White" GroupName="inputVoiceLanguages" IsChecked="False" Checked="InputLangUpdate" IsEnabled="False"/>
-                <RadioButton x:Name="inputLangFRadio" Content="Monster Hunter Language" Foreground="White" GroupName="inputVoiceLanguages" IsChecked="False" Checked="InputLangUpdate" IsEnabled="False" Opacity="0.5"/>
+                <RadioButton x:Name="inputLangFRadio" Content="Monster Hunter Language" Foreground="White" GroupName="inputVoiceLanguages" IsChecked="False" Checked="InputLangUpdate"/>
             </StackPanel>
             <Button x:Name="importButton" Grid.Column="1" Content="Import File" HorizontalAlignment="Left" Height="31" Margin="14,38,0,0" VerticalAlignment="Top" Width="120" FontWeight="Bold" FontSize="14" Click="ImportPCKFile"/>
             <CheckBox x:Name="manualCheckBox" Grid.Column="1" Content="Manual Mode" HorizontalAlignment="Left" Height="19" Margin="155,46,0,0" VerticalAlignment="Top" Width="102" Foreground="White" ToolTip="Enable the manual info input like what's in &quot;Output Voice&quot;. NOTE: There shouldn't be a reason to use this. Any issues that arise from using this mode will probably be ignored!" Checked="ManualModeToggle" IsChecked="False" Unchecked="ManualModeToggle"/>

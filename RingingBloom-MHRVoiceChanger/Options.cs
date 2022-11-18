@@ -1,6 +1,4 @@
 ﻿using MHRVoiceChanger.WWiseTypes.Common;
-using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
@@ -11,25 +9,19 @@ namespace MHRVoiceChanger
         public string defaultImport { get; set; }
         public string defaultExport { get; set; }
         public SupportedGames defaultGame { get; set; }
-        public string wwisePath { get; set; }
-        public string defaultProjectPath { get; set; }
 
         public Options()
         {
             defaultImport = null;
             defaultExport = null;
             defaultGame = SupportedGames.MHRise;
-            wwisePath = null;
-            defaultProjectPath = null;
         }
 
-        public Options(string dImport, string dExport, SupportedGames dGame, string dWwise, string dProject)
+        public Options(string dImport, string dExport, SupportedGames dGame)
         {
             defaultImport = dImport;
             defaultExport = dExport;
             defaultGame = dGame;
-            wwisePath = dWwise;
-            defaultProjectPath = dProject;
         }
 
         public Options(XmlReader xml)
@@ -63,20 +55,6 @@ namespace MHRVoiceChanger
                                 break;
                         }
                         break;
-                    case "WwisePath":
-                        content = xml.ReadElementContentAsString();
-                        if (content != "")
-                        {
-                            wwisePath = content;
-                        }
-                        break;
-                    case "DefaultProjectPath":
-                        content = xml.ReadElementContentAsString();
-                        if (content != "")
-                        {
-                            defaultProjectPath = content;
-                        }
-                        break;
                     default:
                         break;
                 }
@@ -95,8 +73,6 @@ namespace MHRVoiceChanger
             xml.WriteElementString("DefaultImportPath", defaultImport);
             xml.WriteElementString("DefaultExportPath", defaultExport);
             xml.WriteElementString("DefaultGame", defaultGame.ToString());
-            xml.WriteElementString("WwisePath", wwisePath);
-            xml.WriteElementString("DefaultProjectPath", defaultProjectPath);
             xml.WriteEndElement();
             xml.Flush();
             xml.Close();

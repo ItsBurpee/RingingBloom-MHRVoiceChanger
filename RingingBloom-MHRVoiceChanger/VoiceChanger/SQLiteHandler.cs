@@ -42,7 +42,6 @@ namespace MHRVoiceChanger.VoiceChanger
             return rdr.GetDouble(0);
         }
 
-
         /* SUMMARY: GetVoiceInfo
             Gets the voice information from its file name
 
@@ -218,6 +217,58 @@ namespace MHRVoiceChanger.VoiceChanger
                     File.Move(file.FullName, tempDirPathOut + outputWem);
                 }
             }
+        }
+
+        /* SUMMARY: IsReady
+        Checks if a certain voice is ready for conversion
+        The equivalent to GetReadyFlag
+
+        PARAMETERS:
+            targetFileName - The name of the voice file
+
+        RETURN:
+            True if the voice is ready
+            False if it isn't
+        */
+        public bool IsReady(string targetFileName)
+        {
+            string query = "SELECT Ready_Flag FROM VOICES WHERE File_Name = '" + targetFileName + "'";
+
+            var cmd = new SQLiteCommand(query, conn);
+            SQLiteDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            if (rdr.GetInt32(0) == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /* SUMMARY: GetIDList
+        Gets the ID list for a voice file
+
+        PARAMETERS:
+            targetFileName - The name of the voice file
+
+        RETURN:
+            The ID list string for "ID Replace"
+        */
+        public string GetIDList(string targetFileName)
+        {
+            // Get the table name from the given voice file
+            SQLiteDataReader voiceInfo = GetVoiceInfo(targetFileName);
+
+            string query = "SELECT List FROM ID_LISTS WHERE Voice_Label = '" + voiceInfo.GetString(0) + "'";
+
+            var cmd = new SQLiteCommand(query, conn);
+            SQLiteDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            return rdr.GetString(0);
         }
     }
 }
